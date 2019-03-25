@@ -1,13 +1,8 @@
 import { Module } from '@nestjs/common';
-import { prisma } from '../../database/generated/prisma-client/index';
-
-const prismaProvider = {
-  provide: 'PrismaService',
-  useFactory: () => () => prisma,
-};
+import { PrismaService } from './prisma.service';
 
 @Module({
-  providers: [prismaProvider],
-  exports: ['PrismaService'],
+  providers: [PrismaService],
+  exports: [PrismaService],
 })
 export class PrismaModule {}
