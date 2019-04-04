@@ -7,7 +7,7 @@ import { UserCreateInput } from './dto/user-create.input';
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) { }
-  
+
   async findAll(): Promise<User[]> {
     return await this.prisma.api.users();
   }
