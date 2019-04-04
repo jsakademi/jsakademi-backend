@@ -9,7 +9,7 @@ describe('UsersService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
-        { provide: UsersService, useValue: {} },
+        { provide: PrismaService, useValue: {} },
       ],
     }).compile();
 
