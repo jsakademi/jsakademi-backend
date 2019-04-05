@@ -7,6 +7,7 @@ export class UserUpdateInput {
     nullable: true,
     description: 'First name of the user',
   })
+  @IsOptional()
   @MaxLength(30)
   firstName?: string;
 
@@ -14,6 +15,7 @@ export class UserUpdateInput {
     nullable: true,
     description: 'Last Name of the user',
   })
+  @IsOptional()
   @MaxLength(30)
   lastName?: string;
 
