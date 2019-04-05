@@ -6,3 +6,9 @@ type User {
   bio: String
   avatar: String
 }
+
+type Tag {
+  id: ID! @unique
+  title: String! @unique
+  description: String!
+}
