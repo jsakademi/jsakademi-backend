@@ -5,10 +5,12 @@ type User {
   email: String! @unique
   bio: String
   avatar: String
+  followingTags: [Tag!]
 }
 
 type Tag {
   id: ID! @unique
   title: String! @unique
   description: String!
+  followers: [User!]
 }
