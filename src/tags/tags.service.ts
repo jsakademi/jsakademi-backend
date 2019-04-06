@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.service';
 import { Tag } from './models/tag';
+import { User } from './../users/models/user';
 import { TagCreateInput } from './dto/tag-create.input';
 import { TagUpdateInput } from './dto/tag-update.input';
 
@@ -26,5 +27,9 @@ export class TagsService {
 
   async delete(id: string): Promise<Tag> {
     return await this.prisma.api.deleteTag({ id });
+  }
+
+  async findFollowers(id: string): Promise<User[]> {
+    return await this.prisma.api.tag({ id }).followers();
   }
 }
