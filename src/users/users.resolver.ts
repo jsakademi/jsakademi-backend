@@ -1,10 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ResolveProperty, Parent } from '@nestjs/graphql';
 import { User } from './models/user';
+import { Tag } from './../tags/models/tag';
 import { UserCreateInput } from './dto/user-create.input';
 import { UserUpdateInput } from './dto/user-update.input';
 import { UsersService } from './users.service';
 
-@Resolver(of => User)
+@Resolver(User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) { }
 
@@ -34,5 +35,17 @@ export class UsersResolver {
   @Mutation(returns => User, { description: 'Delete user with given id' })
   async deleteUser(@Args('id') id: string): Promise<User> {
     return await this.usersService.delete(id);
+  }
+
+  @ResolveProperty(
+    'followingTags',
+    returns => [Tag],
+    {
+      description: 'The tags that user if following',
+      nullable: true,
+    },
+  )
+  async followingTags(@Parent() user: User): Promise<Tag[]> {
+    return await this.usersService.findFollowingTags(user.id);
   }
 }
