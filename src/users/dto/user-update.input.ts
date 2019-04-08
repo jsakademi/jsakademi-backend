@@ -1,4 +1,4 @@
-import { IsOptional, Length, MaxLength, IsNotEmpty, IsEmail, IsUrl } from 'class-validator';
+import { IsOptional, Length, MaxLength, IsNotEmpty, IsEmail, IsUrl, IsArray } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
 @InputType({ description: 'Update User Input' })
@@ -46,4 +46,26 @@ export class UserUpdateInput {
   @IsNotEmpty()
   @IsUrl()
   avatar?: string;
+
+  @Field(
+    returns => [String],
+    {
+      nullable: true,
+      description: 'Id list of tags that user wants to follow. It should be an array of string if provided',
+    },
+  )
+  @IsOptional()
+  @IsArray()
+  followTags?: [string];
+
+  @Field(
+    returns => [String],
+    {
+      nullable: true,
+      description: 'Id list of tags that user wants to unfollow. It should be an array of string if provided',
+    },
+  )
+  @IsOptional()
+  @IsArray()
+  unfollowTags?: [string];
 }
