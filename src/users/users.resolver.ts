@@ -39,7 +39,7 @@ export class UsersResolver {
 
   @ResolveProperty(
     'followingTags',
-    returns => [Tag],
+    type => [Tag],
     {
       description: 'The tags that user is following',
       nullable: true,

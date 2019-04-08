@@ -48,7 +48,7 @@ export class UserUpdateInput {
   avatar?: string;
 
   @Field(
-    returns => [String],
+    type => [String],
     {
       nullable: true,
       description: 'Id list of tags that user wants to follow. It should be an array of string if provided',
@@ -56,10 +56,10 @@ export class UserUpdateInput {
   )
   @IsOptional()
   @IsArray()
-  followTags?: [string];
+  followTags?: string[];
 
   @Field(
-    returns => [String],
+    type => [String],
     {
       nullable: true,
       description: 'Id list of tags that user wants to unfollow. It should be an array of string if provided',
@@ -67,5 +67,5 @@ export class UserUpdateInput {
   )
   @IsOptional()
   @IsArray()
-  unfollowTags?: [string];
+  unfollowTags?: string[];
 }
