@@ -9,7 +9,7 @@ export class PrismaService {
   }
 
   generateConnectAndDisconnect(fieldName: string, connectIds: string[], disconnectIds: string[]) {
-    if (!connectIds && !disconnectIds) {
+    if (!fieldName || (!connectIds && !disconnectIds)) {
       return {};
     } else {
       const connect = connectIds ? { connect: connectIds.map(id => ({ id })) } : {};
