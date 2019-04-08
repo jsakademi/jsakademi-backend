@@ -41,7 +41,7 @@ export class UsersResolver {
     'followingTags',
     returns => [Tag],
     {
-      description: 'The tags that user if following',
+      description: 'The tags that user is following',
       nullable: true,
     },
   )
