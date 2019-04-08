@@ -23,11 +23,11 @@ export class UsersService {
 
   async update(userUpdateInput: UserUpdateInput, id: string): Promise<User> {
     const { followTags, unfollowTags, ...user } = userUpdateInput;
-    const followingTags = this.generateFollowingTags(followTags, unfollowTags);
+    const followingTags = this.prisma.generateConnectAndDisconnect('followingTags', followTags, unfollowTags);
     const data = {
       ...user,
       ...followingTags,
-    }
+    };
     return await this.prisma.api.updateUser({ data, where: { id } });
   }
 
@@ -37,20 +37,5 @@ export class UsersService {
 
   async findFollowingTags(id: string): Promise<Tag[]> {
     return await this.prisma.api.user({ id }).followingTags();
-  }
-
-  private generateFollowingTags(followTags: string[], unfollowTags: string[]) {
-    if (!followTags && !unfollowTags) {
-      return {};
-    } else {
-      const connect = followTags ? { connect: followTags.map(id => ({ id })) } : {};
-      const disconnect = unfollowTags ? { disconnect: unfollowTags.map(id => ({ id })) } : {};
-      return {
-        followingTags: {
-          ...connect,
-          ...disconnect,
-        }
-      };
-    }
   }
 }
