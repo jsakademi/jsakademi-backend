@@ -1,3 +1,4 @@
+import { Tag } from './../../tags/models/tag';
 import { ObjectType, Field, ID } from 'type-graphql';
 
 @ObjectType({ description: 'The User Model' })
@@ -25,4 +26,6 @@ export class User {
     description: 'Avatar url of the user',
   })
   avatar?: string;
+
+  followingTags?: Tag[];
 }

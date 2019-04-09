@@ -22,7 +22,13 @@ export class UsersService {
   }
 
   async update(userUpdateInput: UserUpdateInput, id: string): Promise<User> {
-    return await this.prisma.api.updateUser({ data: userUpdateInput, where: { id } });
+    const { followTags, unfollowTags, ...user } = userUpdateInput;
+    const followingTags = this.prisma.generateConnectAndDisconnect('followingTags', followTags, unfollowTags);
+    const data = {
+      ...user,
+      ...followingTags,
+    };
+    return await this.prisma.api.updateUser({ data, where: { id } });
   }
 
   async delete(id: string): Promise<User> {
