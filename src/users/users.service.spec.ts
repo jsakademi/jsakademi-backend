@@ -5,26 +5,26 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { PrismaService } from './../prisma/prisma.service';
 
+const mockFollowingTagsFn = jest.fn();
+const mockUser: User = {
+  id: 'testId',
+  firstName: 'Poyraz',
+  lastName: 'Yilmaz',
+  email: 'test@test.com',
+  bio: 'biography of the user',
+  avatar: 'http://avatar.url.com',
+};
+const mockApi = {
+  users: jest.fn(),
+  user: jest.fn().mockImplementation(id => ({ id, followingTags: mockFollowingTagsFn })),
+  deleteUser: jest.fn().mockImplementation(id => ({ id })),
+  createUser: jest.fn().mockImplementation(() => mockUser),
+  updateUser: jest.fn().mockImplementation(() => mockUser),
+};
+
 describe('UsersService', () => {
   let service: UsersService;
   let prismaService: PrismaService;
-  // mock functions and variables for usersService
-  const mockFollowingTagsFn = jest.fn();
-  const mockUser: User = {
-    id: 'testId',
-    firstName: 'Poyraz',
-    lastName: 'Yilmaz',
-    email: 'test@test.com',
-    bio: 'biography of the user',
-    avatar: 'http://avatar.url.com',
-  };
-  const mockApi = {
-    users: jest.fn(),
-    user: jest.fn().mockImplementation(id => ({ id, followingTags: mockFollowingTagsFn })),
-    deleteUser: jest.fn().mockImplementation(id => ({ id })),
-    createUser: jest.fn().mockImplementation(() => mockUser),
-    updateUser: jest.fn().mockImplementation(() => mockUser),
-  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -57,10 +57,10 @@ describe('UsersService', () => {
 
   it('should find user with id by using prismaService user method with id as a parameter', async () => {
     const mockFn = jest.spyOn(prismaService.api, 'user');
-    const result = await service.findById('testId');
+    const result = await service.findById(mockUser.id);
     expect(mockFn).toHaveBeenCalledTimes(1);
-    expect(mockFn).toHaveBeenCalledWith({ id: 'testId' });
-    expect(result.id).toEqual({ id: 'testId' });
+    expect(mockFn).toHaveBeenCalledWith({ id: mockUser.id });
+    expect(result.id).toEqual({ id: mockUser.id });
     mockFn.mockClear();
   });
 
@@ -82,11 +82,11 @@ describe('UsersService', () => {
       followTags: ['tagId'],
       unfollowTags: ['tagId'],
     };
-    const result = await service.update(userUpdateInput, 'testId');
+    const result = await service.update(userUpdateInput, mockUser.id);
     expect(mockGenerateConnectAndDisconnect).toHaveBeenCalledTimes(1);
     expect(mockGenerateConnectAndDisconnect).toHaveBeenCalledWith('followingTags', userUpdateInput.followTags, userUpdateInput.unfollowTags);
     expect(mockFn).toHaveBeenCalledTimes(1);
-    expect(mockFn).toHaveBeenCalledWith({ data: { ...mockUser }, where: { id: 'testId' } });
+    expect(mockFn).toHaveBeenCalledWith({ data: { ...mockUser }, where: { id: mockUser.id } });
     expect(result).toEqual(mockUser);
     mockGenerateConnectAndDisconnect.mockClear();
     mockFn.mockClear();
@@ -94,18 +94,18 @@ describe('UsersService', () => {
 
   it('should delete user with id by using prismaService deleteUser method with id as a parameter', async () => {
     const mockFn = jest.spyOn(prismaService.api, 'deleteUser');
-    const result = await service.delete('testId');
+    const result = await service.delete(mockUser.id);
     expect(mockFn).toHaveBeenCalledTimes(1);
-    expect(mockFn).toHaveBeenCalledWith({ id: 'testId' });
-    expect(result.id).toEqual({ id: 'testId' });
+    expect(mockFn).toHaveBeenCalledWith({ id: mockUser.id });
+    expect(result.id).toEqual({ id: mockUser.id });
     mockFn.mockClear();
   });
 
   it('should get tag of user with id by using prismaService user.followingTags method with id as a parameter', async () => {
     const mockFn = jest.spyOn(prismaService.api, 'user');
-    await service.findFollowingTags('testId');
+    await service.findFollowingTags(mockUser.id);
     expect(mockFn).toHaveBeenCalledTimes(1);
-    expect(mockFn).toHaveBeenCalledWith({ id: 'testId' });
+    expect(mockFn).toHaveBeenCalledWith({ id: mockUser.id });
     expect(mockFollowingTagsFn).toHaveBeenCalled();
     mockFn.mockClear();
   });
