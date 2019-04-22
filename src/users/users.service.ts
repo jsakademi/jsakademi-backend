@@ -1,3 +1,4 @@
+import { News } from './../news/models/news';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from './models/user';
@@ -22,11 +23,13 @@ export class UsersService {
   }
 
   async update(userUpdateInput: UserUpdateInput, id: string): Promise<User> {
-    const { followTags, unfollowTags, ...user } = userUpdateInput;
+    const { followTags, unfollowTags, addNewsToFavorite, removeNewsFromFavorite, ...user } = userUpdateInput;
     const followingTags = this.prisma.generateConnectAndDisconnect('followingTags', followTags, unfollowTags);
+    const favoriteNews = this.prisma.generateConnectAndDisconnect('favoriteNews', addNewsToFavorite, removeNewsFromFavorite);
     const data = {
       ...user,
       ...followingTags,
+      ...favoriteNews,
     };
     return await this.prisma.api.updateUser({ data, where: { id } });
   }
@@ -37,5 +40,9 @@ export class UsersService {
 
   async findFollowingTags(id: string): Promise<Tag[]> {
     return await this.prisma.api.user({ id }).followingTags();
+  }
+
+  async findFavoriteNews(id: string): Promise<News[]> {
+    return await this.prisma.api.user({ id }).favoriteNews();
   }
 }

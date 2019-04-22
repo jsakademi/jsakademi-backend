@@ -1,7 +1,7 @@
 import { IsOptional, Length, MaxLength, IsNotEmpty } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
-@InputType({ description: 'Update User Input' })
+@InputType({ description: 'Update Tag Input' })
 export class TagUpdateInput {
   @Field({
     nullable: true,

@@ -1,3 +1,4 @@
+import { News } from './../../news/models/news';
 import { Tag } from './../../tags/models/tag';
 import { ObjectType, Field, ID } from 'type-graphql';
 
@@ -28,4 +29,6 @@ export class User {
   avatar?: string;
 
   followingTags?: Tag[];
+
+  favoriteNews?: News[];
 }
