@@ -7,4 +7,4 @@ import { UsersService } from './users.service';
   imports: [PrismaModule],
   providers: [UsersResolver, UsersService],
 })
-export class UsersModule {}
+export class UsersModule { }
