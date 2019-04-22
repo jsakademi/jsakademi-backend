@@ -21,8 +21,8 @@ export class NewsResolver {
   }
 
   @Mutation(returns => News, { description: 'Create new news with given data' })
-  async createNews(@Args('newCreateInput') newCreateInput: NewsCreateInput): Promise<News> {
-    return await this.newsService.create(newCreateInput);
+  async createNews(@Args('newsCreateInput') newsCreateInput: NewsCreateInput): Promise<News> {
+    return await this.newsService.create(newsCreateInput);
   }
 
   @Mutation(returns => News, { description: 'Update news with given id' })

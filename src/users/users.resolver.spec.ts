@@ -30,6 +30,7 @@ describe('UsersResolver', () => {
             update: jest.fn(),
             delete: jest.fn(),
             findFollowingTags: jest.fn(),
+            findFavoriteNews: jest.fn()
           },
         },
       ],

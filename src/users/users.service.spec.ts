@@ -88,8 +88,9 @@ describe('UsersService', () => {
       unfollowTags: ['tagId'],
     };
     const result = await service.update(userUpdateInput, mockUser.id);
-    expect(mockGenerateConnectAndDisconnect).toHaveBeenCalledTimes(1);
+    expect(mockGenerateConnectAndDisconnect).toHaveBeenCalledTimes(2);
     expect(mockGenerateConnectAndDisconnect).toHaveBeenCalledWith('followingTags', userUpdateInput.followTags, userUpdateInput.unfollowTags);
+    expect(mockGenerateConnectAndDisconnect).toHaveBeenCalledWith('favoriteNews', userUpdateInput.addNewsToFavorite, userUpdateInput.removeNewsFromFavorite);
     expect(mockFn).toHaveBeenCalledTimes(1);
     expect(mockFn).toHaveBeenCalledWith({ data: { ...mockUser }, where: { id: mockUser.id } });
     expect(result).toEqual(mockUser);
