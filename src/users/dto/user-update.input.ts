@@ -68,4 +68,26 @@ export class UserUpdateInput {
   @IsOptional()
   @IsArray()
   unfollowTags?: string[];
+
+  @Field(
+    type => [String],
+    {
+      nullable: true,
+      description: 'Id list of news that user wants to add to its favorites. It should be an array of string if provided',
+    },
+  )
+  @IsOptional()
+  @IsArray()
+  addNewsToFavorite?: string[];
+
+  @Field(
+    type => [String],
+    {
+      nullable: true,
+      description: 'Id list of news that user wants to remove from its favorites. It should be an array of string if provided',
+    },
+  )
+  @IsOptional()
+  @IsArray()
+  removeNewsFromFavorite?: string[];
 }

@@ -74,6 +74,8 @@ describe('UsersResolver', () => {
       ...mockUser,
       followTags: ['tagId'],
       unfollowTags: ['tagId'],
+      addNewsToFavorite: ['newsId'],
+      removeNewsFromFavorite: ['newsId'],
     };
     await resolver.updateUser(userUpdateInput, mockUser.id);
     expect(mockFn).toHaveBeenCalledTimes(1);
@@ -92,6 +94,14 @@ describe('UsersResolver', () => {
   it('should call usersService `findFollowingTags` methods with id params when `followingTags` method is called', async () => {
     const mockFn = jest.spyOn(usersService, 'findFollowingTags');
     await resolver.followingTags(mockUser);
+    expect(mockFn).toHaveBeenCalledTimes(1);
+    expect(mockFn).toBeCalledWith(mockUser.id);
+    mockFn.mockClear();
+  });
+
+  it('should call usersService `findFavoriteNews` methods with id params when `favoriteNews` method is called', async () => {
+    const mockFn = jest.spyOn(usersService, 'findFavoriteNews');
+    await resolver.favoriteNews(mockUser);
     expect(mockFn).toHaveBeenCalledTimes(1);
     expect(mockFn).toBeCalledWith(mockUser.id);
     mockFn.mockClear();

@@ -1,3 +1,4 @@
+import { News } from './../news/models/news';
 import { Resolver, Query, Mutation, Args, ResolveProperty, Parent } from '@nestjs/graphql';
 import { User } from './models/user';
 import { Tag } from './../tags/models/tag';
@@ -47,5 +48,17 @@ export class UsersResolver {
   )
   async followingTags(@Parent() user: User): Promise<Tag[]> {
     return await this.usersService.findFollowingTags(user.id);
+  }
+
+  @ResolveProperty(
+    'favoriteNews',
+    type => [News],
+    {
+      description: 'The favorites news of the user',
+      nullable: true,
+    },
+  )
+  async favoriteNews(@Parent() user: User): Promise<News[]> {
+    return await this.usersService.findFavoriteNews(user.id);
   }
 }

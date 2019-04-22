@@ -6,6 +6,7 @@ import { UsersService } from './users.service';
 import { PrismaService } from './../prisma/prisma.service';
 
 const mockFollowingTagsFn = jest.fn();
+const mockFavoriteNewsFn = jest.fn();
 const mockUser: User = {
   id: 'testId',
   firstName: 'Poyraz',
@@ -16,7 +17,11 @@ const mockUser: User = {
 };
 const mockApi = {
   users: jest.fn(),
-  user: jest.fn().mockImplementation(id => ({ id, followingTags: mockFollowingTagsFn })),
+  user: jest.fn().mockImplementation(id => ({
+    id,
+    followingTags: mockFollowingTagsFn,
+    favoriteNews: mockFavoriteNewsFn,
+  })),
   deleteUser: jest.fn().mockImplementation(id => ({ id })),
   createUser: jest.fn().mockImplementation(() => mockUser),
   updateUser: jest.fn().mockImplementation(() => mockUser),
@@ -101,12 +106,21 @@ describe('UsersService', () => {
     mockFn.mockClear();
   });
 
-  it('should get tag of user with id by using prismaService user.followingTags method with id as a parameter', async () => {
+  it('should get tags of user with id by using prismaService user.followingTags method with id as a parameter', async () => {
     const mockFn = jest.spyOn(prismaService.api, 'user');
     await service.findFollowingTags(mockUser.id);
     expect(mockFn).toHaveBeenCalledTimes(1);
     expect(mockFn).toHaveBeenCalledWith({ id: mockUser.id });
     expect(mockFollowingTagsFn).toHaveBeenCalled();
+    mockFn.mockClear();
+  });
+
+  it('should get favorite news of user with id by using prismaService user.favoriteNews method with id as a parameter', async () => {
+    const mockFn = jest.spyOn(prismaService.api, 'user');
+    await service.findFavoriteNews(mockUser.id);
+    expect(mockFn).toHaveBeenCalledTimes(1);
+    expect(mockFn).toHaveBeenCalledWith({ id: mockUser.id });
+    expect(mockFavoriteNewsFn).toHaveBeenCalled();
     mockFn.mockClear();
   });
 });
