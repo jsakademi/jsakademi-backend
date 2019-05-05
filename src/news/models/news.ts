@@ -19,6 +19,9 @@ export class News {
   @Field({ description: 'Content of the news' })
   content: string;
 
+  @Field({ description: 'Creation date of news' })
+  createdAt: string;
+
   author?: User;
 
   likes?: User[];

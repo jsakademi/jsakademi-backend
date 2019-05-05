@@ -11,7 +11,7 @@ export class NewsResolver {
   constructor(private readonly newsService: NewsService) { }
 
   @Query(returns => [News], { description: 'Find all news' })
-  async findNews(): Promise<News[]> {
+  async newses(): Promise<News[]> {
     return await this.newsService.findAll();
   }
 

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { TagsModule } from './tags/tags.module';
 import { NewsModule } from './news/news.module';
@@ -9,10 +8,12 @@ import { NewsModule } from './news/news.module';
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.graphql',
+      playground: true,
+      introspection: true,
     }),
     UsersModule,
     TagsModule,
     NewsModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }
