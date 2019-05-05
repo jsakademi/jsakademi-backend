@@ -13,6 +13,7 @@ type User {
 type Tag {
   id: ID! @unique
   title: String! @unique
+  logo: String
   description: String!
   followers: [User!]
   news: [News!]
@@ -20,6 +21,7 @@ type Tag {
 
 type News {
   id: ID! @unique
+  createdAt: DateTime! @createdAt
   title: String!
   cover: String!
   description: String!
