@@ -1,4 +1,4 @@
-import { IsOptional, Length, MaxLength, IsNotEmpty } from 'class-validator';
+import { IsOptional, Length, MaxLength, IsNotEmpty, IsUrl } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
 @InputType({ description: 'Update Tag Input' })
@@ -19,4 +19,13 @@ export class TagUpdateInput {
   @IsOptional()
   @Length(30, 255)
   description?: string;
+
+  @Field({
+    nullable: true,
+    description: 'Logo of the tag. It is optional but should be valid URL if provided',
+  })
+  @IsOptional()
+  @IsNotEmpty()
+  @IsUrl()
+  logo?: string;
 }

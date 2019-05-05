@@ -12,5 +12,11 @@ export class Tag {
   @Field({ description: 'Description for the tag' })
   description: string;
 
+  @Field({
+    nullable: true,
+    description: 'Logo of the the tag',
+  })
+  logo?: string;
+
   followers?: User[];
 }
