@@ -1,5 +1,5 @@
 type User {
-  id: ID! @unique
+  id: ID! @unique  @id
   firstName: String!
   lastName: String!
   email: String! @unique
@@ -11,7 +11,7 @@ type User {
 }
 
 type Tag {
-  id: ID! @unique
+  id: ID! @unique  @id
   title: String! @unique
   logo: String
   description: String!
@@ -20,13 +20,23 @@ type Tag {
 }
 
 type News {
-  id: ID! @unique
+  id: ID! @unique  @id
   createdAt: DateTime! @createdAt
   title: String!
   cover: String!
   description: String!
   content: String!
-  author: User! @relation(link: TABLE, name: "AuthorNews")
-  likes: [User!] @relation(link: TABLE, name: "UserFavorites")
+  author: User! @relation(name: "AuthorNews")
+  likes: [User!] @relation(name: "UserFavorites")
   relatedTags: [Tag!]
+}
+
+type AuthorNews @relationTable {
+   author: User!
+   news: News!
+}
+
+type UserFavorites @relationTable {
+   likes: User!
+   favoriteNews: News!
 }
